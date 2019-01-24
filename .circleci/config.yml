@@ -6,7 +6,7 @@ jobs:
   build:
     docker:
     - image: circleci/golang:1.11
-    - image: circleci/mysql:8
+    - image: circleci/mysql:8.0.14
       environment:
       - MYSQL_PASSWORD=admin
       - MYSQL_DATABASE=fp_be_verification_service
@@ -19,6 +19,8 @@ jobs:
     steps:
     - checkout
     - run: go get -u github.com/golang/dep/cmd/dep
+    - run: cd /go/src/github.com/shinichi2510/circleci-golang-demo
+    - run: dep init
     - run:
         name: run build
         command: |
