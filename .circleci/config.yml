@@ -1,0 +1,32 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    docker:
+    - image: circleci/golang:1.11
+      environment:
+        GO111MODULE: "ON"
+    - image: circleci/mysql:8
+      environment:
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=fp_be_verification_service
+      - MYSQL_ROOT_HOST=%
+      - DB_HOST=127.0.0.1
+      - DB_PORT=3306
+    working_directory: /go/src/github.com/shinichi2510/circleci-golang-demo
+    environment: # environment variables for the build itself
+       TEST_RESULTS: /tmp/test-results # path to where test results will be saved
+    steps:
+    - checkout
+    - run: go get -u github.com/golang/dep/cmd/dep
+    - run:
+        name: run build
+        command: |
+          dep ensure
+          go build -v
+    - run:
+        name: Install things we need
+        command: |
+          sudo apt-get update
