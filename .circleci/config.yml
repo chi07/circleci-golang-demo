@@ -6,8 +6,6 @@ jobs:
   build:
     docker:
     - image: circleci/golang:1.11
-      environment:
-        GO111MODULE: "ON"
     - image: circleci/mysql:8
       environment:
       - MYSQL_PASSWORD=admin
